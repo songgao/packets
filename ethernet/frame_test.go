@@ -53,9 +53,14 @@ func TestPrepare(t *testing.T) {
 
 func TestResize(t *testing.T) {
 	var frame Frame
-	(&frame).Resize(1024)
-	expectedLength := 6 + 6 + int(NotTagged) + 2 + 1024
+	(&frame).Resize(8)
+	expectedLength := 6 + 6 + int(NotTagged) + 2 + 8
 	if len(frame) != expectedLength {
 		t.Fatalf("frame does not have correct length. expected %d; got %d\n", expectedLength, len(frame))
+	}
+	frame.Payload()[0] = 42
+	(&frame).Resize(1024)
+	if frame.Payload()[0] != 42 {
+		t.Fatalf("expanded frame does not have same content\n")
 	}
 }

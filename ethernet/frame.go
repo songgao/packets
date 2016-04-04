@@ -72,7 +72,8 @@ func (f Frame) Payload() []byte {
 }
 
 // Resize re-slices (*f) so that len(*f) holds exactly payloadSize bytes of
-// payload. If cap(*f) is not large enough, a new slice is made.
+// payload. If cap(*f) is not large enough, a new slice is made and content
+// from old slice is copied to the new one.
 //
 // If len(*f) is less than 14 bytes, it is assumed to be not tagged.
 //
@@ -107,7 +108,9 @@ func (f *Frame) Prepare(dst net.HardwareAddr, src net.HardwareAddr, tagging Tagg
 
 func (f *Frame) resize(length int) {
 	if cap(*f) < length {
+		old := *f
 		*f = make(Frame, length, length)
+		copy(*f, old)
 	} else {
 		*f = (*f)[:length]
 	}
