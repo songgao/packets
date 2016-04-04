@@ -45,7 +45,7 @@ func (f Frame) Tagging() Tagging {
 	return NotTagged
 }
 
-// Tag returns a slice holding the tag part of the frame, if any. Note taht
+// Tag returns a slice holding the tag part of the frame, if any. Note that
 // this includes the Tag Protocol Identifier (TPID), e.g. 0x8100 or 0x88a8.
 // Upper layer should use the returned slice for both reading and writing.
 //
